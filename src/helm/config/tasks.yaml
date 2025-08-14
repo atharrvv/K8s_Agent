@@ -1,0 +1,119 @@
+log_collection_task:
+  description: >
+    Collect comprehensive logs from the Kubernetes cluster for the specified time range and scope.
+    
+    Your tasks include:
+    1. Collect logs from all pods in the specified namespace(s): {namespaces}
+    2. Gather logs from the last {time_range} period
+    3. Focus on log levels: {log_levels} (ERROR, WARN, INFO, DEBUG)
+    4. Include system component logs (kube-scheduler, kube-controller-manager, etcd, etc.)
+    5. Collect container runtime logs if accessible
+    6. Filter logs related to the specific focus area: {focus_area}
+    7. Organize logs by timestamp, namespace, pod, and container
+    8. Ensure logs are collected efficiently without overloading the cluster
+    
+    Current date and time: {current_time}
+    Cluster context: {cluster_context}
+  expected_output: >
+    A structured collection of Kubernetes logs organized by:
+    - Timestamp and time range covered
+    - Namespace and pod breakdown
+    - Log levels and counts
+    - Key log entries for each component
+    - Summary of log collection scope and any collection issues encountered
+  agent: log_collector
+
+log_analysis_task:
+  description: >
+    Perform comprehensive analysis of the collected Kubernetes logs to identify patterns, issues, and insights.
+    
+    Your analysis should include:
+    1. Parse and categorize all collected log entries by severity and type
+    2. Identify error patterns and recurring issues across pods and services
+    3. Detect anomalies in application behavior and system performance
+    4. Correlate events across different services and components
+    5. Extract performance metrics from application logs (response times, throughput, etc.)
+    6. Identify resource-related issues (memory leaks, CPU spikes, storage problems)
+    7. Detect security-related events and suspicious activities
+    8. Find deployment and scaling issues
+    9. Analyze trends over the specified time period: {time_range}
+    10. Suggest potential root causes for identified issues
+    
+    Focus on: {focus_area}
+    Priority issues: {priority_issues}
+  expected_output: >
+    A comprehensive log analysis report containing:
+    - Executive summary of key findings
+    - Detailed breakdown of errors and warnings by category
+    - Performance insights and bottlenecks identified
+    - Security events and anomalies detected
+    - Correlation analysis between different services
+    - Root cause analysis for major issues
+    - Trends and patterns observed
+    - Recommended actions for each identified issue
+  agent: log_analyzer
+
+alerting_task:
+  description: >
+    Generate intelligent alerts and incident management recommendations based on the log analysis findings.
+    
+    Your responsibilities include:
+    1. Classify all identified issues by severity level (Critical, High, Medium, Low)
+    2. Create actionable alerts for issues requiring immediate attention
+    3. Generate incident tickets for critical problems with detailed context
+    4. Recommend escalation procedures for high-severity issues
+    5. Suggest immediate remediation steps for common problems
+    6. Create alert fatigue reduction by grouping related issues
+    7. Prioritize alerts based on business impact and urgency
+    8. Generate notification content for different stakeholders (DevOps, Developers, Management)
+    9. Recommend monitoring improvements to prevent similar issues
+    10. Create runbooks for recurring problems identified in logs
+    
+    Alert channels: {alert_channels}
+    On-call schedule: {oncall_info}
+    Severity thresholds: {severity_thresholds}
+  expected_output: >
+    A comprehensive alerting and incident management plan including:
+    - Immediate action items with severity classification
+    - Detailed alert descriptions with context and impact
+    - Escalation procedures and recommended response times
+    - Notification templates for different stakeholders
+    - Remediation playbooks for identified issues
+    - Recommendations for monitoring and alerting improvements
+    - Summary of alert suppression rules to reduce noise
+  agent: alert_manager
+
+reporting_task:
+  description: >
+    Create a comprehensive operational report based on the log analysis, findings, and alerting recommendations.
+    
+    Generate a detailed report that includes:
+    1. Executive summary suitable for management and stakeholders
+    2. Technical deep-dive sections for DevOps and development teams
+    3. Cluster health overview and key performance indicators
+    4. Detailed findings from log analysis with supporting evidence
+    5. Security posture assessment based on log events
+    6. Performance trends and optimization opportunities
+    7. Incident summary and response recommendations
+    8. Operational recommendations for improving cluster reliability
+    9. Suggested monitoring and logging improvements
+    10. Action items with owners, timelines, and priorities
+    11. Appendices with detailed log samples and technical data
+    
+    Report audience: {report_audience}
+    Report format: {report_format}
+    Include visualizations: {include_charts}
+    Time period covered: {time_range}
+  expected_output: >
+    A comprehensive Kubernetes operational report formatted as markdown containing:
+    - Executive Summary (non-technical overview)
+    - Cluster Health Assessment
+    - Security Analysis and Recommendations
+    - Performance Analysis and Optimization Opportunities
+    - Incident Analysis and Response Procedures
+    - Operational Recommendations and Best Practices
+    - Action Items with Priorities and Timelines
+    - Technical Appendices with Supporting Data
+    - Glossary and References
+    All sections should be well-structured, data-driven, and actionable.
+  agent: report_generator
