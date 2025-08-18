@@ -1,5 +1,5 @@
 # Kubernetes Log Analysis Agents 🤖📊
-![Kubernetes Logo](https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png)
+<img src="https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png" alt="Kubernetes Logo" width="80"/>
 
 
 ## Overview
