@@ -1,109 +1,97 @@
+# Kubernetes Log Analysis Agents 🤖📊
+![Kubernetes Logo](https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png)
 
 
-# K8s_Agent: Multi-Agent Kubernetes Automation
+## Overview
+This project provides an **AI-powered multi-agent system** for Kubernetes log analysis, security auditing, and incident investigation.  
+It leverages **CrewAI** to coordinate agents that collect logs, analyze patterns, send alerts, and generate structured reports.
 
-## Main Purpose
+---
 
-**K8s_Agent** is a modular, multi-agent framework designed to **automate and orchestrate Kubernetes cluster diagnostics, incident response, monitoring, and security analysis**. all agent roles and capabilities are defined in `src/helm/config/agents.yaml` and their workflows in `tasks.yaml`. The core purpose is to enable declarative, YAML-driven assignment of AI and automation tasks to different agents for a Kubernetes environment.
+## 🔑 Key Functionalities
 
-***
+### 📝 Log Collection
+- Collects logs from pods across **all namespaces** or specific ones.
+- Prioritizes key namespaces (`default`, `kube-system`, `monitoring`, etc.).
+- Detects issues such as **errors, crashes, warnings, and restarts**.
 
-## Agent-Based Architecture
+### 📊 Cluster Insights
+- Gathers **cluster info**, including:
+  - Node status
+  - Namespace summary
+  - Recent Kubernetes events
+- Provides a **cluster-wide snapshot** of health and activity.
 
-All agent definitions— their skills, tool access, LLM parameters, and operational focus—are maintained in `agents.yaml`. This means **the project can be adapted to various Kubernetes troubleshooting, monitoring, or workflow automation scenarios** by simply editing this YAML, rather than the codebase itself.
+### 🚨 Alerting System
+- Sends **Slack notifications** with severity levels:
+  - Critical 🚨, High ⚠️, Medium 🔶, Low 🔵, Info ℹ️
+- Notifies DevOps/SRE teams about incidents and anomalies.
 
-**Agent definitions typically include:**
+### 📄 Automated Reporting
+- Generates Markdown reports (`kubernetes_log_analysis_report.md`).
+- Reports include:
+  - Log analysis findings
+  - Cluster insights
+  - Alerts and recommendations
 
-- Role/name/goal
-- Tools enabled (log collection, Slack alerting, custom)
-- LLM configuration (model, prompts, temperature, etc.)
-- Permissions or data scope
+### 🔍 Specialized Analysis Modes
+- **Incident Investigation**: Focus on a specific namespace or pod.
+- **Health Check**: Routine cluster health and performance monitoring.
+- **Security Audit**: Detects unauthorized access, authentication failures, and suspicious activity.
 
-**Example Use Cases (controlled via agents.yaml):**
+---
 
-
-| Agent Type | Description/Typical Role |
-| :-- | :-- |
-| Log Collector | Gathers pod, node, and event logs across cluster or focused namespaces |
-| Analyzer | Processes log data, looks for error patterns, anomalies |
-| Reporter | Compiles Markdown or other reports for SRE/DevOps integration |
-| Alert Manager | Sends Slack or webhook alerts when issues, thresholds, or patterns are found |
-| Custom AI/Script Agent | Can be configured for advanced reasoning, remediation suggestions |
-
-**These can be expanded, renamed, or reconfigured fully in the YAML file.**
-
-***
-
-## Key Principles
-
-- **YAML-First**: The true core of the system is the agent/task configuration; code just provides an execution engine.
-- **Customizable Workflows**: Add, remove, or change agent roles and behaviors via YAML edits only.
-- **Kubernetes Focus**: All useful capabilities—log parsing, health checks, security scanning, event collation—are realized as agent tasks.
-- **LLM-Driven**: Leverages large language models (e.g., OpenAI/Azure) for log interpretation, summary, and natural language output.
-
-***
-
-## How to Use and Extend
-
-1. **Clone and set up the repo**.
-2. **Edit `src/helm/config/agents.yaml`** to define:
-    - Agent names, roles, model settings, available tools, and skills.
-3. **Edit `src/helm/config/tasks.yaml`** to sequence agent actions for different scenarios (full scan, incident analysis, audit, reporting).
-4. **Run**:
-
-```sh
-crewai run       # default workflow
+## 📂 Repository Structure
+```
+.
+├── crew.py                  # Defines agents, tools, and CrewAI orchestration
+├── main.py                  # CLI entry point for running different analyses
+├── agents.yaml              # Agent & task configuration
+└── kubernetes_log_analysis_report.md (generated)
 ```
 
-5. **Modify/add agents or tasks** by updating only the YAML—no code changes required unless building completely new logic/tools.
+---
 
-***
+## ⚡ Getting Started
 
-## Summary Table: YAML-Driven Agent System
+### Prerequisites
+- Python 3.9+
+- Kubernetes cluster access (`kubectl` configured)
+- [Trivy](https://aquasecurity.github.io/trivy/) (optional, for security scans)
+- Slack Webhook URL (optional, for alerts)
+- Azure OpenAI API credentials (`AZURE_API_KEY`, `AZURE_API_BASE`, `AZURE_API_VERSION`)
 
-| Component | Location | Main Role | Editable by User? |
-| :-- | :-- | :-- | :-- |
-| Agents | `src/helm/config/agents.yaml` | Define AI agent roles, skills, tools, LLM | **Yes** |
-| Tasks/Workflow | `src/helm/config/tasks.yaml` | Task assignment, sequence, conditions | **Yes** |
-| Tools/Logic | `src/helm/tools/` (Python) | Underlying automation/scripts/APIs | Advanced |
-| Execution Engine | `src/helm/crew.py`, `main.py` | Loads YAML, orchestrates agent/task running | Not required |
+### Installation
+```bash
+# Clone the repo
+git clone <your-repo-url>
+cd <repo-directory>
 
+# Install dependencies
+crewai run
+```
 
-***
+---
 
-Edit `agents.yaml` and `tasks.yaml` to **transform K8s_Agent into any infrastructure AIOps workflow required**—from daily health checks to auto-incident investigation or compliance reporting. The provided directory and code are simply an execution harness for YOUR YAML-based automation.[^1][^2][^3][^4][^5][^6][^7][^8][^9][^10][^11][^12][^13][^14][^15][^16]
+## 🧠 Agents
 
-<div style="text-align: center">⁂</div>
+- **Log Collector** → Collects logs & cluster info.  
+- **Log Analyzer** → Processes logs to detect anomalies.  
+- **Alert Manager** → Sends Slack alerts.  
+- **Report Generator** → Creates structured reports.  
 
-[^1]: https://github.com/atharrvv/K8s
+---
 
-[^2]: https://github.com/atharrvv/K8s_Agent.git
+## 📌 Future Enhancements
+- Integration with Prometheus & Grafana for real-time monitoring.  
+- Automated remediation (restart pods, scale workloads).  
+- Support for AWS EKS & GCP GKE.  
+- Rich visual reports with charts & dashboards.  
 
-[^3]: https://github.com/kagent-dev/kagent
+---
 
-[^4]: https://docs.newrelic.com/docs/kubernetes-pixie/kubernetes-integration/installation/k8s-agent-operator/
+## 🤝 Contributing
+Contributions are welcome! Please open issues or PRs for enhancements.
 
-[^5]: https://octopus.com/docs/kubernetes/targets/kubernetes-agent
-
-[^6]: https://github.com/newrelic/k8s-agents-automation
-
-[^7]: https://docs.vantage.sh/kubernetes_agent/
-
-[^8]: https://docs.gitlab.com/user/clusters/agent/work_with_agent/
-
-[^9]: https://github.com/k8sgpt-ai/k8sgpt
-
-[^10]: https://docs.gitlab.com/user/clusters/agent/install/
-
-[^11]: https://kubernetes.io/docs/home/
-
-[^12]: https://wandb.ai/byyoung3/crewai_git_documenter/reports/Building-a-Github-repo-summarizer-with-CrewAI--VmlldzoxMjY5Mzc5Ng
-
-[^13]: https://github.com/atharrvv/K8s_Agent/blob/main/README.md
-
-[^14]: https://github.com/atharrvv/K8s_Agent/blob/main/src/helm/main.py
-
-[^15]: https://github.com/atharrvv/K8s_Agent/blob/main/src/helm/crew.py
-
-[^16]: https://github.com/atharrvv/K8s_Agent/blob/main/pyproject.toml
+---
 
