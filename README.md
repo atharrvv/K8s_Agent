@@ -44,10 +44,28 @@ It leverages **CrewAI** to coordinate agents that collect logs, analyze patterns
 ## 📂 Repository Structure
 ```
 .
-├── crew.py                  # Defines agents, tools, and CrewAI orchestration
-├── main.py                  # CLI entry point for running different analyses
-├── agents.yaml              # Agent & task configuration
-└── kubernetes_log_analysis_report.md (generated)
+├── README.md
+├── knowledge
+│   └── user_preference.txt
+├── kubernetes_log_analysis_report.md
+├── pyproject.toml
+├── src
+│   └── helm
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.cpython-312.pyc
+│       │   ├── crew.cpython-312.pyc
+│       │   └── main.cpython-312.pyc
+│       ├── config
+│       │   ├── agents.yaml
+│       │   └── tasks.yaml
+│       ├── crew.py
+│       ├── main.py
+│       └── tools
+│           ├── __init__.py
+│           └── custom_tool.py
+├── tests
+└── uv.lock
 ```
 
 ---
